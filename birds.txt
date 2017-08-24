@@ -1,0 +1,9 @@
+"species" "farm" "garden" "wood"
+"1" "duck" 10 7 0
+"2" "gull" 5 0 0
+"3" "lapwing" 2 0 0
+"4" "nuthatch" 0 0 4
+"5" "owl" 0 0 2
+"6" "robin" 0 3 0
+"7" "sparrow" 7 0 0
+"8" "tit" 2 6 8
