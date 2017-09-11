@@ -620,14 +620,14 @@ Missing values occur all too frequently:
 In **R** 'Not available' or missing values are specified using `NA`
 
 ```{r echo=TRUE}
-veg.height <- c(44.2,22.7,NA,33.3)
-veg.height
+veg.heights <- c(44.2,22.7,NA,33.3)
+veg.heights
 ```
 
 ###
 This can cause problems, for instance when calculating the mean: 
 ```{r echo=TRUE}
-mean(veg.height)
+mean(veg.heights)
 ```
   
 ###
@@ -636,7 +636,7 @@ The mean cannot be calculated because the missing value is included.  However, y
 
 ###
 ```{r echo=TRUE}
-mean(veg.height, na.rm = TRUE)
+mean(veg.heights, na.rm = TRUE)
 ```
 It has calculated the mean.  
 
@@ -652,11 +652,11 @@ This session should take about **5** minutes to complete.  It gives a brief intr
 The working directory is the place R will look for any data, unless you tell it otherwise.  So first you need to set the working directory: 
 
 ###
-`setwd("C:\\IntroR")`  
+`setwd("C:\\introR")`  
 Windows uses backslashes `\`: in **R** these must be written twice `\\` (because a single backslash has a special meaning in **R**).   
 
 ###
-`setwd("C:/IntroR")`  
+`setwd("C:/introR")`  
 Alternatively you can used single forward slashes `/` for paths.
 
 ## Importing csv
@@ -666,6 +666,11 @@ Data is often collated from sources such as:
 * field survey sheets
 * sensor measurements
 * third party data (e.g. weather records)
+
+###Example
+
+You want to understand the impact of grazing on a site, so you have measured the height of grasses, mosses and shrubs on five occasions in the last ten years.  You have saved your measurements as  
+
 
 ###
 The easiest way of getting data into R is to read it from a text file,  for example a file saved as comma separated values in Excel (.csv). To make it easy for a beginner to deal with, the .csv file should have: 
@@ -683,7 +688,7 @@ The **read.csv()** function can bring csv file data into **R**.  The code needs 
 `read.csv()`  The function which will interpret the file and read it into **R**
 
 ###
-`"birds.csv"`  The name of the file you are importing.  Note that it is in quotes `""`: this is because we want **R** to read it as a string of characters.  
+`"veg-heights.csv"`  The name of the file you are importing.  Note that it is in quotes `""`: this is because we want **R** to read it as a string of characters.  
 
 ###
 `header = TRUE`  An **parameter** for the `read.csv()` function.  We will learn more about parameters later.  
@@ -695,7 +700,7 @@ The **read.csv()** function can bring csv file data into **R**.  The code needs 
 Here is the assembled line of code: 
 
 ```{r, echo=TRUE, eval=FALSE}
-birds <- read.csv("birds.csv", header=TRUE)
+veg.heights <- read.csv("veg-heights.csv", header=TRUE)
 ```
 
 ## Importing other formats
@@ -708,7 +713,7 @@ Data in text files is often separated by commas, but you may find other separato
 
 ###
 ```{r, echo=TRUE, eval=FALSE}
-birds <- read.table("birds.txt", sep="")
+veg.heights <- read.table("veg-heights.txt", sep="")
 ```
 
 ### 
@@ -717,14 +722,14 @@ By installing R extensions you can read data in other formats, such as Excel or 
 ## Viewing data in R Studio
 Once you have read in a file, in R Studio it will appear in the Global Environment window in the top right hand side.  
 
-![RStudio's view of data that has been imported](images/IntroR_data_import.png){width="560"}
+![RStudio's view of data that has been imported](images/introR_data_import.png){width="560"}
 
 
 ### Excercise: import some data
-To complete this exercise you must first download the sample data `birds.csv` from [....] and save it to your C drive in a folder called "IntroR".  
+To complete this exercise you must first download the sample data `veg-heights.csv` and `veg-heights.txt` from [....] and save them to your C drive in a folder called "introR".  
 
 ###
-1 In line 1 of of the code box below, write code to set the working directory to C:/IntroR/  
+1 In line 1 of of the code box below, write code to set the working directory to C:/introR/  
 2 In line 2, Write the code to import the birds data.  You can copy it from above.  
 3 In line 3, write code for displaying the data.  
 
@@ -735,17 +740,16 @@ Then press **Run Code**.  If you have done it correctly you should see the conte
 ```
 
 ```{r import.ex-hint-1}
-setwd("C:/IntroR")
+setwd("C:/introR")
 ```
 ```{r import.ex-hint-2}
-birds <- read.csv("birds.csv, header = TRUE)
+veg.heights <- read.csv("veg-heights.csv", header=TRUE)
 ```
 ```{r import.ex-hint-3}
-birds
+veg.heights
 ```
 
 
-**THIS DOESN'T WORK: CAN'T SET WORKING DIRECTORY**
 
 ###
 end of topic **Importing data**
@@ -770,7 +774,7 @@ We have already encountered some R functions, such as `cbind()`, `data.frame()`,
 Lets look at the components of a function we've already used: 
 
 ###
-![The components of a function](images/IntroR_functions.png){width="560"}
+![The components of a function](images/introR_functions.png){width="560"}
 
 ## How to find help
 R has built in documentation to explain what functions do, and what their default parameters are.  
@@ -907,7 +911,7 @@ log(trap.count)
 ```
 
 ### Excercise: birds
-We will be using the dataframe birds imported earlier.  Have a look at it by typing View(birds).  
+A school has been recording birds in its neighbourhood.   They have asked you to analyse the results.  Have a look at the data they sent you by typing `View(birds)`.  
 ```{r block10-setup}
 birds <- cbind(species = c("duck", "gull", "lapwing", "nuthatch", "owl", "robin", "sparrow", "tit" ), 
                farm = c(10,5,2,0,0,0,7,2),
@@ -1043,15 +1047,15 @@ quiz(
 
 ###Solution
 
-![OR](images/IntroR_OR.png){height="80"}
+![OR](images/introR_OR.png){height="80"}
 
 *Incorrect* `burn | moss` burn **OR** moss returns `TRUE` for each plot that has been burned, or there is moss, or both. It returns all plots. 
 
-![AND](images/IntroR_AND.png){height="80"} 
+![AND](images/introR_AND.png){height="80"} 
 
 *Correct* `burn & moss` burn ** AND** moss returns` TRUE` only if a plot has been burned and there is moss
 
-![NOT](images/IntroR_NOT.png){height="80"} 
+![NOT](images/introR_NOT.png){height="80"} 
 
 *Incorrect* `burn ! moss` burn **NOT** moss returns `TRUE` only if a plot has been burned but there is no moss.
 
@@ -1331,49 +1335,65 @@ hist(rexp(n = 10000))
 ## GRAPHS
 **R** produces great plots, but unlike other software you need to tell **R** in writing how the plot should look.
 
-```{r}
-birds <- data.frame(species = c("duck", "gull", "lapwing", "nuthatch", "owl", "robin", "sparrow", "tit" ), 
-                    farm = c(10,5,2,0,0,0,7,2),
-                    garden = c(7,0,0,0,0,3,0,6),
-                    wood = c(0,0,0,4,2,0,0,8))
+###
+Lets look at the vegetation heights data again.  This time we've also recorded vegetation cover at each quadrat.  First we'll load the file:  
+```{r veggraph-setup}
+veg.all <- read.csv("veg-all.csv", header=TRUE)
 ```
 
 ###
-Lets look at the birds data again: 
 ```{r echo=TRUE}
-birds
+veg <- read.csv("veg-all.csv", header=TRUE)
 ```
 
-
+###
+Using the function `summary` we can get an idea of which variables are in the data. 
+```{r veggraph, echo=TRUE}
+summary(veg.all)
+```
+###
+So now we can start plotting the data with a function called ... `plot`.  
 
 ###
 When using the `plot` function R automatically selects an appropriate graph type, depending on the data.  Here it has chosen to plot all variables against each other. It can provide a quick way of choosing what to plot next.  
 ```{r echo=TRUE}
-plot(birds)
+plot(veg.all)
 ```
 
 ###
-Lets look at the variables `species` and `farm`.  
+Lets look at the variables `height` and `cover`.  Here we are defining the axes as a `formula` and specifying the data source. 
 ```{r echo=TRUE}
-plot(birds$farm ~ birds$species)
+plot(formula = height ~ cover, data = veg.all)
 ```
 
-**R** has automatically chosen this graph type because we are plotting a numeric variable (farm) against a factor (species).  
+###
+Do you think there is a relationship between vegetation height and cover here? 
+
+###
+Now lets look at `height` and `year`.  Perhaps there is change over time? 
+```{r echo = TRUE}
+plot(height ~ year, veg.all)
+```
+
+Note that we have left out the names of the plot arguments `formula =` and `data =`.  This is common, and as long as **R** can interpret it correctly, makes writing code more efficient. 
+
+###
+You see that the data is stacked in each year, which sugegsts that `year` is actually a categorical variable.  This means we can use boxplots. 
 
 ###
 The `boxplot` function can give us an idea of how the data is distributed: 
-```{r}
-boxplot(birds[,2:4])
+```{r echo = TRUE}
+boxplot(height ~ year, veg.all)
 ```
 
 ###
 Titles and axis labels can be specified and are formatted automatically by **R**. 
 ```{r echo=TRUE}
-boxplot(birds[,2:4], 
-        main = "Number of birds (all species) by site",
-        xlab = "Sites",
-        ylab = "Bird count")
+boxplot(formula = height ~ year, data = veg.all,
+        main = "Height of vegetation in cm by year",
+        xlab = "survey years",
+        ylab = "vegetation height")
 ```
 
 ###
-end of section **GRAPHS**
+End of section **GRAPHS**
