@@ -15,11 +15,12 @@ tutorial_options(exercise.cap = "Code", exercise.eval = FALSE, exercise.timelimi
 ```
 
 
-# ABOUT THESE TUTORIALS
+## INTRODUCTION  
+## About these tutorials  
 
 The Introduction to R Tutorials are a part of a Natural England e-learning course which will help you get to grips with using the R Studio user interface and to understand the syntax and concepts of the R language. 
 
-###Learning outcomes
+###Learning outcomes 
 After completing the course you should be able to:
 
 * understand the main data types in R: vector, matrix, data frame.  
@@ -85,7 +86,7 @@ In **R**, any text to the right of a hash `#` is ignored by the **R** programme.
 
 Click **Next topic** to start the first tutorial.  
 
-# TUTORIAL 1: R DATA TYPES 
+## Tutorial 1: R DATA TYPES 
 
 This session should take about **???** minutes to complete.  It introduces the ways in which R handles  data and how it handles data, namely: 
 
@@ -98,7 +99,7 @@ This session should take about **???** minutes to complete.  It introduces the w
 ###
 Lets look at **value classes** first. 
 
-##Value classes
+##  Value classes  
 
 Any dataset consists of a number of elements (e.g. a measurement, species name, presence/absence), each of which has a value.  In **R** the following types of value can exist: 
 
@@ -384,7 +385,7 @@ matrix(temp, nrow= 12)
 ###
 Next we will do it by specifying the number of columns (5 years = 5 columns).  Click **Run Code** to see how it works: 
 
-```{r weath-ex-1,  exercise=TRUE, exercise.eval=FALSE}
+```{r weath-ex-2,  exercise=TRUE, exercise.eval=FALSE}
 matrix(temp, ncol= 5)
 ```
 
@@ -642,7 +643,7 @@ It has calculated the mean.
 ###
 end of topic **Missing Values**
 
-# TUTORIAL 2: IMPORTING DATA
+## TUTORIAL 2: IMPORTING DATA  
 
 This session should take about **5** minutes to complete.  It gives a brief introduction to importing data from a text file.   
 
@@ -749,7 +750,7 @@ birds
 ###
 end of topic **Importing data**
 
-# TUTORIAL 3: FUNCTIONS AND OPERATORS
+## TUTORIAL 3: FUNCTIONS AND OPERATORS  
 
 This session should take about **30** minutes to complete.  It explains:
 
@@ -1180,7 +1181,7 @@ water.table > water.table.rpt
 ###
 end of topic **Functions**
 
-# TUTORIAL 4: SUMMARY STATISTICS
+## TUTORIAL 4: SUMMARY STATISTICS  
 
 This session should take about **10** minutes to complete.  It gives a very brief introduction to extracting summary statistics from **R**
 
