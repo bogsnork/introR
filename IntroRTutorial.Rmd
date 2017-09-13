@@ -1397,3 +1397,57 @@ boxplot(formula = height ~ year, data = veg.all,
 
 ###
 End of section **GRAPHS**
+
+##TUTORIAL 5: Statistics with **R**
+
+This is a brief introduction to common statistical tests and methods and how they can be carried out in **R**.
+
+###
+**R** is primarily a statistical tool and comes with a core set of statistical methods.  If *base* **R** does not have a function, it is likely that one of the thousands of contributed *packages* does.  
+
+###
+In this tutorial we will briefly look at: 
+* Hypothesis testing: 
+  * t-tests
+  * ???
+  * Anova
+
+###Hypothesis testing
+We often encounter scenarios in ecology where we have to evaluate whether two or more sets of samples are different from each other.  e.g. 
+
+* You are monitoring the stability of a colony of Greater Black-backed Gulls.  You have counted the gulls twice a year for three years.  
+* You are evaluating a management intervention for Dark-red Heleborine.  You have recorded the number of heleborines in 20 random quadrats in a field that has not been grazed for a long time, and done the same two years after introducing grazing.      
+* **Something about ph levels - good to have a continuous measured example ** You are comparing pH levels in 5 ponds.  
+
+You have measured the pH of ten ponds, once a week for two months.   
+
+#### What is a sample? 
+In each case you have *sampled* the *population*.  
+
+Example | Sample | Population
+--- |--- |---
+Gulls |number of culls visible at each count |number resident gulls
+Orchids |number of orchids counted in quadrats |number of orchids in field
+Ponds |pH level at sampling date |mean?? pH??? not sure..
+
+###
+Each **sample** is 
+
+#### What do you want to know? 
+In most cases, you will want to know whether a population is different from another population.  
+
+* Is the total number of resident gulls in one year significantly different from another year? 
+* Is the number of orchids in the field before grazing significantly different from the number following the introduction of grazing? 
+* **pH example needed**
+
+### If only...
+If you had watched the birds all year long, you'd know exactly the number of resident gulls.  If you had surveyed the whole field - twice! - you know the exact number of orchids.  And if you'd measured the pond continuously for one year, you'd know the exact pH range of the pond.  
+
+#### ...but...
+Unfortunately you haven't counted all the birds or all the orchids, and you haven't measured pH all year round.  You have only *sampled* them.   
+
+#### ...which **means**...
+So we rely on the average (*mean*), middle (*median*), maximum or minimum value in our samples to make an **estimate** of the true value in the population.  
+
+###
+But if we have made two estimates (e.g. before and after grazing), how can we decide whether the difference in the estimates is due to 
