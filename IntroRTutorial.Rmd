@@ -14,14 +14,10 @@ knitr::opts_chunk$set(echo = FALSE)
 tutorial_options(exercise.cap = "Code", exercise.eval = FALSE, exercise.timelimit = NULL, exercise.lines = 3, exercise.checker = FALSE, exercise.completion = TRUE, exercise.diagnostics = TRUE, exercise.startover = TRUE)  
 ```
 
-
 ## INTRODUCTION  
-## About these tutorials  
+### About this tutorial  
 
-The Introduction to R Tutorials are a part of a Natural England e-learning course which will help you get to grips with using the R Studio user interface and to understand the syntax and concepts of the R language. 
-
-###Learning outcomes 
-After completing the course you should be able to:
+This Introduction to R e-learning tutorial is a part of Natural England's training material on using the R programming langauge to undertake statistical analysis.  This tutorial will help you to understand the syntax and concepts of the R language.  After completing the course you should be able to:
 
 * understand the main data types in R: vector, matrix, data frame.  
 * be able to import data from common file formats
@@ -30,39 +26,22 @@ After completing the course you should be able to:
 * undertake simple statistical analysis on your data
 * make basic graphs
 
-This will give you the grounding to follow the case study examples that are being developed and to apply the techniques to your own data.
-
-Click **Continue** to read on.  
+This will give you the grounding to follow the statistical case study examples that are being developed and to apply the techniques to your own data.
 
 ###Target audience
 The course is suitable for anyone who wants to be able to undertake statistical analysis themselves.
 
-###Content
+## How to use this tutorial
+This tutorial is interactive.  It includes some explanation, but will also ask you to discover how **R** works by executing **R** code in exercises, or through quizzes. You will be able to try out your quiz answers before you submit your solution.  
 
-* Tutorial 1:	R data types (xx minutes)
-* Tutorial 2: Importing data (xx minutes)
-* Tutorial 3: Functions and operators (xx minutes)
-* Tutorial 4: Summary statistics (xx minutes)
-* ??	Running statistical tests (xx minutes)
-* ??	Plots and charts (xx minutes) 
+The content of each section will be progressively revealed: Click **Continue** or **Next topic** to move forward.  You will get most out of the training if you complete all the exercises.  
 
-Click **Continue** to read on.  
+Whilst you may wish to [install **R** and **RStudio**](http://trim/HPRMWebClientClassic/download/?uri=3571239) prior to starting this training course so that you can apply what you have learnt as you go along, having the software installed is not essential to running the interactive tutorials.
 
-###Pre-requisites
+You may find it helpful to view the introductory video to R and R Studio before you start this tutorial: [Overview of R and R Studio](need link) (Duration 20 minutes?)
 
-For the interactive tutorial you will need to use the Google Chrome browser.  If you do not already have Chrome on your EDEN 7 laptop then open the Software Centre, select Chrome for Work and click on Install.  See the following [instructions](http://neintranet/daytoday/it/Documents/chrome-installation-guide.pdf) for more details.
-
-Whilst you may wish to [install **R** and **RStudio**](http://trim/HPRMWebClientClassic/?uri=3571239&t=record&lang=ln_english&mbd=false) prior to starting this training course so that you can apply what you have learnt as you go along, having the software installed is not essential to running the interactive tutorials.
-
-You may find it helpful to review more general introductory material about **R** before you start the tutorials, including the video: [Overview of R and R Studio](need link) (Duration 1 hour?)
-
-### HOW TO USE THESE TUTORIALS 
-These tutorials are interactive.  They include some explanation, but will also ask you to discover how **R** works by executing **R** code in exercises, or through quizzes.  You will be able to try out your quiz answers before you sumit your solution.  
-
-Each tutorial will be progressively revealed: Click **Continue** or **Next topic** to move forward.  You will get most out of the training if you complete all the exercises.  
-
-###Understanding code formatting
-The tutorials include **R** code which is always formatted like this: `this is what R code looks like` or as a separate chunk of code (which looks more like it does in RStudio):
+##Understanding code formatting
+This tutorial includes **R** code which is always formatted like this: `this is what R code looks like` or as a separate chunk of code (which looks more like it does in RStudio):
 
 ```{r echo=TRUE, eval=FALSE}
 This is what an R code chunk looks like.  
@@ -84,55 +63,52 @@ In **R**, any text to the right of a hash `#` is ignored by the **R** programme.
 #pssst: R is a silly name for a programme. Don't tell R.   
 ```
 
-Click **Next topic** to start the first tutorial.  
+Click **Next topic** to view the contents of this tutorial.  
 
-## Tutorial 1: R DATA TYPES 
+##CONTENTS
 
-This session should take about **???** minutes to complete.  It introduces the ways in which R handles  data and how it handles data, namely: 
+* Section 1: [R data types](#section-section-1-r-data-types) (xx minutes)
+* Section 2: [Importing data](#section2) (xx minutes)
+* Section 3: [Functions and operators](#section3) (xx minutes)
+* Section 4: [Summary statistics](#section4) (xx minutes)
+* Section 5: [Plots and charts](#section5) (xx minutes) 
 
-* Value classes
-* Vectors  
-* Matrices  
-* Data Frames  
-* Missing Values  
+Click **Next topic** to read on.  
+
+## SECTION 1: R DATA TYPES
+
+This session should take about **???** minutes to complete.  It introduces the ways in which R handles data, namely: 
+
+* Basic types (numeric, character and logical)
+* Data structures (vectors, matrices and data frames)
+* Handling missing values  
 
 ###
-Lets look at **value classes** first. 
+Lets look at **basic types** first. 
 
-##  Value classes  
+##  Basic types
 
-Any dataset consists of a number of elements (e.g. a measurement, species name, presence/absence), each of which has a value.  In **R** the following types of value can exist: 
+Any dataset consists of a number of elements (e.g. a measurement, species name, presence/absence), each of which has a value.  In **R** values will normally be one of the following types:
 
 * Numeric 
-* Integer
-* Complex
 * Character
 * Logical
-* Raw (we won't address the *raw* class of data here)
 
 ###Numeric values
-Any value which consists of only numbers is automatically treated as **numeric** data by **R**. 
+Any value which consists of only numbers is automatically treated as **numeric** data in **R**. 
 
 >water table measurements: `15.4, 15.8, 20, 21`
 
-If there are only whole numbers, it will be treated as an **integer**.  
-
 >bird counts: `15, 700, 300, 120`
 
-Another category is **complex** numbers (such as `3 + 2i`), which won't be further addressed here.  Irrational numbers (such as pi) are simply treated as numeric. 
-
 ###Character values
-Any value which contains text is automatically treated as a **character**.  Numbers can also be interpreted as a character, or forced to be treated as characters.  You can tell R something is a character by enclosing it in double `"char"` or single `'char'` quotes.   
-
+Any value which contains text is automatically treated as being **character** data.  You tell R something is a character by enclosing it in double `"char"` or single `'char'` quotes.   
 >species: `"bellis perennis", "columba livia"`
-
-All character values are automatically also **categorical**.  
 
 ###Logical values
 A logical value can only be either `TRUE` or `FALSE`.  **R** automatically recognises those two words as logical values, but can also treat other values as logical (e.g. `0` and `1`, `T` and `F`). 
 
 >feature present: `TRUE, FALSE, FALSE, TRUE`
-
 
 ###Quiz
 ```{r quiz1, echo=FALSE}
@@ -140,52 +116,54 @@ quiz(caption = "Quiz: Data types",
   question("Which type of value is `10`. Tick all that apply.",
     answer("character"),
     answer("numeric", correct = TRUE),
-    answer("integer", correct = TRUE),
     answer("logical"),
-    incorrect = "Incorrect: `10` is both an integer and a numeric value."
+    incorrect = "Incorrect: `10` is a numeric value."
   ),
-  question("Which of these values does R treat as character?",
-    answer("`favourable condition`", correct = TRUE),
+  question("Which of these values does R treat as being character data?",
+    answer("`\"favourable condition\"`", correct = TRUE),
     answer("`2017`"),
     answer("`\"2017\"`", correct = TRUE),
     answer("`TRUE`"),
-    incorrect = "Incorrect: **favourable condition** is treated as character. `2017` is treated as a numeric, however when put in quotes `\"2017\"` is treated as a character (e.g. when wishing to define two surveys by the year they were carried out).`TRUE` is a special case and is treated as a logical value."   
+    incorrect = "Incorrect: **\"favourable condition\"** is treated as character. `2017` is treated as a numeric, however when put in quotes `\"2017\"` is treated as a character." 
   ) 
 )
+```
+
+
+###Factors
+
+We have not yet encountered **categorical** data. In **R** such data are known as **factors**.  
+
+Data is categorical if its values belong to a collection of known, defined and non-overlapping classes (referred to as **levels**)
+
+###
+Common examples might be: 
+ 
+* species lists
+* habitat types
+* survey squares
+* etc.
+
+Factors may contain numeric, characters or logical values
+
+```{r vec-eg-3_1,  exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
+factor(c("brophytes", "graminoids", "vascular plants","graminoids")) 
 ```
 
 ##Vector
 
 ###What are vectors?
-Vectors are a sequences of values.  The values must all be of the same type.  
+In **R** vectors are sequences of values.  The values in a vector must all be of the same basic type.
 
-###
-Vectors can be of the type: 
+Vectors can be: 
 
-*numeric, e.g.  `r c(9.2, 33.7, 27.4, 14.9)`
-*logical, e.g. `r c(TRUE, TRUE, FALSE)`
-*character, e.g. `r c("mud","sand")`
+* numeric, e.g.  `c(9.2, 33.7, 27.4, 14.9)`
+* logical, e.g. `c(TRUE, TRUE, FALSE)`
+* character, e.g. `c("mud","sand","shingle")`
+* factors, e.g. `factor(c("quadrat1","quadrat1","quadrat2","quadrat2")`
 
-Vectors can also be coerced into the class **factor**
+Vectors are the basic building blocks of how data are stored in R.  For example, if you import a table of data from Excel into R each column of data is stored as a vector.
 
-###Factors
-We have not yet encountered **categorical** data.  Data is categorical if its values belong to a collection of known, defined and non-overlapping classes.  In **R** these are known as **factors**.  
-
-###
-Common examples might be: 
- 
-* species
-* habitats
-* survey squares
-* etc.
-
-###
-In **R** Factors have two attributes: 
-
-* **Levels** = the discrete categories; and
-* **Positions** = the category value in each position in the vector. 
-
-###Making vectors: combining individual values
 You can make a vector by *combining* a sequence of values separated with a comma.  The combine function in **R** is `c()` and each value must be separated with a comma `,`.  
 
 ###
@@ -211,13 +189,23 @@ Categorical vector:
 c("Male","Female") 
 ```
 
-###
-Factor
+<!--
 
-```{r vec-eg-3_1,  exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
-factor(c("Male","Female")) 
+## Extracting values from vectors
+
+If you want to access specific values from a vector you use square brackets.  For example, to access the first value from `water.table.depth` you would use:
+
+```{r echo=T}
+#water.table.depth[1]
 ```
 
+To access a range of values you use a colon `:`.  For example, to access the first three values from water.table.depth you would use:
+
+```{r echo=T}
+#water.table.depth[1:3]
+```
+
+-->
 
 ###Generating data: sequence and repeat functions
 
@@ -260,7 +248,6 @@ For the grid eastings we can also use the `seq()` function, but this time we hav
 seq(512300, 512700, by=100)
 ```
 
-
 ###
 Or we specify the length of the vector we want:
 
@@ -275,7 +262,6 @@ Finally, for the grid northings, we can use the repeat `rep()` function, specify
 rep(245600, 5)
 ```
 
-
 ### Question
 
 ```{r q1}
@@ -284,7 +270,8 @@ quiz(
     answer("`1:10`", correct = T),
     answer("`c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)`", correct = T),
     answer("`rep(1,10)`"),
-    answer("`seq(1,10)`", correct = T)
+    answer("`seq(1,10)`", correct = T),
+    incorrect= "Not quite. 1:10, c(1,2,3,4,5,6,7,8,9,10) and seq(1,10) will all create a vector containing a sequence of numbers from one to ten.  However, rep(1,10) will create a vector containing the number 1 repeated 10 times."
   )
 )
 ```
@@ -300,14 +287,15 @@ The correct code should give an output that looks like this:
 `[1]  1  2  3  4  5  6  7  8  9 10`
 </div>
 
-Click **Continue** to see the solution.  
+### Variables
 
-###Solution
+In **R** you give data a name by using the `<-` assignment operator.
 
-* Correct: `01:10` The **:** (colon) operator creates a sequence of numbers  
-* Correct: `c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)` The **c** function is used to concatenate values into a vector  
-* Incorrect: `rep(1,10)` The **rep** function creates a vector of repeated values: the first argument (1) is repeated the number of times stated by the second argument (10)  
-* Correct: `seq(1,10)` The **seq** (sequence) function is used to create a sequence of numbers
+```{r echo=T}
+water.table.depth <- c(12.6, 13.9, 9.4, 7.6, 8.1)
+```
+
+The full stop `.` character can be used as a separator in variable names instead of using an underscore `_` character.
 
 ###
 End of topic: **Vector**
