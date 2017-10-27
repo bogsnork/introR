@@ -28,6 +28,8 @@ This Introduction to R e-learning tutorial is a part of Natural England's traini
 
 This will give you the grounding to follow the statistical case study examples that are being developed and to apply the techniques to your own data.
 
+(Last updated: 26 October 2017)
+
 ###Target audience
 The course is suitable for anyone who wants to be able to undertake statistical analysis themselves.
 
@@ -68,10 +70,10 @@ Click **Next topic** to view the contents of this tutorial.
 ##CONTENTS
 
 * Section 1: [R data types](#section-section-1-r-data-types) (xx minutes)
-* Section 2: [Importing data](#section2) (xx minutes)
-* Section 3: [Functions and operators](#section3) (xx minutes)
-* Section 4: [Summary statistics](#section4) (xx minutes)
-* Section 5: [Plots and charts](#section5) (xx minutes) 
+* Section 2: [Importing data](#section-tutorial-2-importing-data) (xx minutes)
+* Section 3: [Functions and operators](#section-tutorial-3-functions-and-operators) (xx minutes)
+* Section 4: [Summary statistics](#section-tutorial-4-summary-statistics) (xx minutes)
+* Section 5: [Plots and charts](#section-graphs) (xx minutes) 
 
 Click **Next topic** to read on.  
 
@@ -87,28 +89,55 @@ This session should take about **???** minutes to complete.  It introduces the w
 Lets look at **basic types** first. 
 
 ##  Basic types
-
-Any dataset consists of a number of elements (e.g. a measurement, species name, presence/absence), each of which has a value.  In **R** values will normally be one of the following types:
+The basic object type in **R** is called a **vector**, which contains a list of values (e.g. a measurement, species name, presence/absence). In **R** values will normally be one of the following types:  
 
 * Numeric 
 * Character
 * Logical
+* Factors
+
+###
 
 ###Numeric values
-Any value which consists of only numbers is automatically treated as **numeric** data in **R**. 
+Any value which consists of only numbers is automatically treated as **numeric** data in **R**.  
 
->water table measurements: `15.4, 15.8, 20, 21`
+The following code creates a variable called `height` which has a value of `180`.
 
->bird counts: `15, 700, 300, 120`
+```{r echo=T}
+height <- 180
+```
+
+###
+
+Typing the name of a variable displays its value.
+
+```{r echo=T}
+height
+
+```
+
+###
+
+In **R** the `c` function is used to **combine** several values into a vector.
+
+```{r numeric.values-setup, echo=T}
+bird.counts <- c(15, 700, 300, 120)
+```
+
+Run the following code to display the values held in `bird.counts`.
+```{r numeric.values, exercise=T}
+bird.counts
+```
+
+Tip: In **R** the full stop `.` character can be used as a separator in variable names instead of using an underscore `_` character.
 
 ###Character values
 Any value which contains text is automatically treated as being **character** data.  You tell R something is a character by enclosing it in double `"char"` or single `'char'` quotes.   
->species: `"bellis perennis", "columba livia"`
+species: `"bellis perennis", "columba livia"`
 
 ###Logical values
-A logical value can only be either `TRUE` or `FALSE`.  **R** automatically recognises those two words as logical values, but can also treat other values as logical (e.g. `0` and `1`, `T` and `F`). 
-
->feature present: `TRUE, FALSE, FALSE, TRUE`
+A logical value can only be either `TRUE` or `FALSE`.  **R** automatically recognises those two words as logical values, but can also treat other values as logical (e.g. `0` and `1`, `T` and `F`).  
+feature present: `TRUE, FALSE, FALSE, TRUE`
 
 ###Quiz
 ```{r quiz1, echo=FALSE}
@@ -144,11 +173,13 @@ Common examples might be:
 * survey squares
 * etc.
 
-Factors may contain numeric, characters or logical values
-
-```{r vec-eg-3_1,  exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
-factor(c("brophytes", "graminoids", "vascular plants","graminoids")) 
-```
+Factors may contain numeric, characters or logical values.  
+>taxonomic group: `"brophytes", "graminoids", "vascular plants","graminoids"`  
+Levels: `brophytes, graminoids, vascular plants`    
+>species present: `TRUE, FALSE, FALSE, TRUE, FALSE`  
+Levels: `FALSE, TRUE`    
+>abundance `5,0,0,1,0` 
+Levels: `0,1,5`  
 
 ##Vector
 
@@ -186,7 +217,7 @@ c(TRUE, TRUE, FALSE)
 Categorical vector:
 
 ```{r vec-eg-3,  exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
-c("Male","Female") 
+factor(c("Male","Female"))
 ```
 
 <!--
@@ -213,7 +244,7 @@ There are often occasions where you need to generate a sequence of numbers.
 
 ###
 For example: we want to survey a 500m transect at 100m intervals, going east from a given grid reference.  We need: 
-###
+
 * five unique plot numbers  
 * five grid eastings, 100m apart  
 * five identical grid northings  
@@ -287,18 +318,38 @@ The correct code should give an output that looks like this:
 `[1]  1  2  3  4  5  6  7  8  9 10`
 </div>
 
-### Variables
+###
+End of topic: **Vector**
 
-In **R** you give data a name by using the `<-` assignment operator.
+## Variables
 
-```{r echo=T}
+In **R** you give data a name to an object by using the `<-` assignment operator.
+
+```{r variables1-setup, echo=T}
 water.table.depth <- c(12.6, 13.9, 9.4, 7.6, 8.1)
 ```
 
 The full stop `.` character can be used as a separator in variable names instead of using an underscore `_` character.
 
+If you type the name of an **object** into **R** it will show the content of the object in the **console** window.  Click **Run Code** to see how it works: 
+
+```{r variables1, exercise=TRUE, exercise.eval=FALSE}
+water.table.depth
+```
+
+```{r variables2-setup, echo=TRUE}
+water.table.depth <- c(12.6, 13.9, 9.4, 7.6, 8.1)
+```
+
 ###
-End of topic: **Vector**
+You can check what type of values the `water.table.depth` vector contains by asking **R** what **mode** it is: 
+```{r variables2, exercise=TRUE, exercise.eval=FALSE}
+mode(water.table.depth)
+```
+The values are numeric.  
+
+###
+End of topic: **Variables**
 
 ##Matrix
 
@@ -323,26 +374,6 @@ trap.count <- cbind(c(11,19,33,12), c(9,33,27,14))
 
 ###
 The `cbind` (**c**olumn **bind**) function combind the vectors into a matrix.  You could also use `rbind` (**r**ow **bind**).  
-###Assignment operator <-
-`<-` is the **assignment operator** which tells **R** to save the results of the function `cbind` into a new **object**.  Here, the object we have created is `trap.count`.  
-
-###Objects in R
-If we type the name of an **object** into **R** it will show the content of the object in the **console** window.  Click **Run Code** to see how it works: 
-
-```{r trap-ex-2,  exercise=TRUE, exercise.eval=FALSE}
-trap.count <- cbind(c(11,19,33,12), c(9,33,27,14))
-trap.count
-```
-
-###
-If you have run the code you will see the matrix we have created.  It has two columns (one for each species) and four rows (one for each trap).
-
-###
-We can check whether `trap.count` is a matrix by asking **R** what **class** it is: 
-```{r echo=TRUE}
-class(trap.count)
-```
-Yes, it is a matrix.  
 
 ###Matrix function
 We can also coerce a single vector into a matrix by using the **matrix** function.  For this you need to specify the vector, and either: 
@@ -424,7 +455,7 @@ End of topic **Matrix**
 
 ###What is a data frame?
 
-A data frame consists of two or more **vectors** of the **same length**.  Unlike a matrix, each column can contain **different types of data**.  It is the preferred way of storing tabular data in R.  It is also the default way data from Excel spreadsheets is imported into **R**.
+A data frame consists of two or more **vectors** of the **same length**.  Each column can contain **different types of data**.  It is the preferred way of storing tabular data in R.  It is also the default way data from Excel spreadsheets is imported into **R**.
 
 ###Example: vegetation quadrat
 
@@ -467,15 +498,11 @@ quadrat <- data.frame(plants = c("shrubs", "grasses", "mosses", "flowers"),
 ```
 
 ```{r veg.ex, exercise=TRUE}
-
+quadrat
 ```
 
 ```{r veg.ex-hint-1}
-Type the name of the object.
-```
-
-```{r veg.ex-hint-2}
-quadrat
+Type the name of the object and click Run Code
 ```
 
 ###Accessing data in data frames
@@ -705,13 +732,14 @@ veg.heights <- read.table("veg-heights.txt", sep="")
 ```
 
 ### 
-By installing R extensions you can read data in other formats, such as Excel or spatial data from shapefiles.  At present these are not available on the IBM catalogue.
+By installing R extensions you can read data in other formats, such as Excel or spatial data from shapefiles. 
 
 ## Viewing data in R Studio
 Once you have read in a file, in R Studio it will appear in the Global Environment window in the top right hand side.  
 
 ![RStudio's view of data that has been imported](images/introR_data_import.png){width="560"}
 
+<!--
 
 ### Excercise: import some data
 To complete this exercise you must first download the sample data `veg-heights.csv` and `veg-heights.txt` from [....] and save them to your C drive in a folder called "introR".  
@@ -737,27 +765,28 @@ veg.heights <- read.csv("veg-heights.csv", header=TRUE)
 veg.heights
 ```
 
-
+-->
 
 ###
 end of topic **Importing data**
+
 
 ## TUTORIAL 3: FUNCTIONS AND OPERATORS  
 
 This session should take about **30** minutes to complete.  It explains:
 
-* how functions work, 
-* how to find help,
-* mathematical operators,
-* operations on R objects,
-* logical operators,
+* how functions work
+* how to find help
+* mathematical operators
+* operations on R objects
+* logical operators
 * relational operators
 
 ## How do functions work
 
-Functions are crucial tools in any programming language.  A function is a part of a computer program that performs some specific action, but is not itself a complete executable program.  
+Functions are crucial tools in any programming language.  A function is a part of a computer program that performs some specific action.  
 
-We have already encountered some R functions, such as `cbind()`, `data.frame()`, `read.csv()` and `read.txt()`. 
+We have already encountered some R functions, such as `c`, `rep`, `seq`, `data.frame()`, `read.csv()` and `read.txt()`. 
 
 Lets look at the components of a function we've already used: 
 
@@ -765,21 +794,16 @@ Lets look at the components of a function we've already used:
 ![The components of a function](images/introR_functions.png){width="560"}
 
 ## How to find help
-R has built in documentation to explain what functions do, and what their default parameters are.  
 
 ###
-Typing `library(help="base")` displays the names of all built-in functions.  Click **Run Code** to see the help file pop up in a new window.
-
-```{r help.ex.1, exercise = TRUE}
-library(help="base")
-```
-
-###
-A more readable list ofbuilt-in functions is here: 
+The following website provides a useful list of R's built in functions.
 
 [Quick-R: Built-in Functions](http://www.statmethods.net/management/functions.html)
 
 ###
+
+R has built in documentation to explain what functions do, and what their default parameters are.  
+
 Putting a question mark in front of a function name displays its help. 
 
 Try to find help for the `any` function:
@@ -792,7 +816,7 @@ Try to find help for the `any` function:
 ?any
 ```
 
-If you've done it correctly the help file will pop up in a new window.  Click **Hint** if you are struggling.  
+If you've done it correctly the help file will pop up in a new window.  Click **Hint** above if you are struggling.  
 
 ## Mathematical Operators
 
@@ -841,16 +865,9 @@ Before you answer the question, use the empty code block below to try out the op
 
 ```
 
-###Solution
-
-* *Incorrect*: `5+5*2` = 15:  In the order of operations you have to multiply before you add.  
-* *Correct*: `(5+5)*2` = 20: Brackets overwrite the order of operations.   
-* *Incorrect*: `5+(5*2)` = 15: you have to solve the brackets first.   
-* *Correct*: `sqrt(400)` = 20: the square root of 400 is 20.   
-
 ## Operations on R objects
 
-Objects such as vectors, matrices and data frames can be manipulated with mathematical operations.    
+Objects such as vectors and data frames can be manipulated with mathematical operations.    
 
 ### Example: water table
 We have measured the water table (in cm) on a site once a month for a year:   
@@ -899,7 +916,11 @@ log(trap.count)
 ```
 
 ### Excercise: birds
-A school has been recording birds in its neighbourhood.   They have asked you to analyse the results.  Have a look at the data they sent you by typing `View(birds)`.  
+A school has been recording birds in its neighbourhood.   They have asked you to analyse the results. The data have been imported and saved to the variable `birds`.
+
+`birds <- import.csv("birds.csv")`
+
+Have a look at the data they sent you by typing `View(birds)`.  
 ```{r block10-setup}
 birds <- cbind(species = c("duck", "gull", "lapwing", "nuthatch", "owl", "robin", "sparrow", "tit" ), 
                farm = c(10,5,2,0,0,0,7,2),
