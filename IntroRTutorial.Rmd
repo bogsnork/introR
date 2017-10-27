@@ -125,8 +125,16 @@ bird.counts <- c(15, 700, 300, 120)
 ```
 
 Run the following code to display the values held in `bird.counts`.
-```{r numeric.values, exercise=T}
+```{r numeric.values, exercise = TRUE}
 bird.counts
+```
+
+```{r wazzup-setup}
+wazzup <- print("wazzup?")
+```
+
+```{r wazzup, exercise = TRUE}
+wazzup
 ```
 
 Tip: In **R** the full stop `.` character can be used as a separator in variable names instead of using an underscore `_` character.
