@@ -1,0 +1,1416 @@
+---
+title: "Introduction to R: Tutorial"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library("shiny")
+library("learnr")
+knitr::opts_chunk$set(echo = FALSE)
+tutorial_options(exercise.cap = "Code", exercise.eval = FALSE, exercise.timelimit = NULL, exercise.lines = 3, exercise.checker = FALSE, exercise.completion = TRUE, exercise.diagnostics = TRUE, exercise.startover = TRUE)  
+```
+
+## INTRODUCTION  
+### About this tutorial  
+
+This Introduction to R e-learning tutorial is a part of Natural England's training material on using the R programming langauge to undertake statistical analysis.  This tutorial will help you to understand the syntax and concepts of the R language.  After completing the course you should be able to:
+
+* understand the main data types in R: vector, matrix, data frame.  
+* be able to import data from common file formats
+* be able to work with functions and know where to find information on new functions
+* be able to manipulate data with mathematical and logical operators
+* undertake simple statistical analysis on your data
+* make basic graphs
+
+This will give you the grounding to follow the statistical case study examples that are being developed and to apply the techniques to your own data.
+
+(Last updated: 26 October 2017)
+
+###Target audience
+The course is suitable for anyone who wants to be able to undertake statistical analysis themselves.
+
+## How to use this tutorial
+This tutorial is interactive.  It includes some explanation, but will also ask you to discover how **R** works by executing **R** code in exercises, or through quizzes. You will be able to try out your quiz answers before you submit your solution.  
+
+The content of each section will be progressively revealed: Click **Continue** or **Next topic** to move forward.  You will get most out of the training if you complete all the exercises.  
+
+Whilst you may wish to [install **R** and **RStudio**](http://trim/HPRMWebClientClassic/download/?uri=3571239) prior to starting this training course so that you can apply what you have learnt as you go along, having the software installed is not essential to running the interactive tutorials.
+
+You may find it helpful to view the introductory video to R and R Studio before you start this tutorial: [Overview of R and R Studio](need link) (Duration 20 minutes?)
+
+##Understanding code formatting
+This tutorial includes **R** code which is always formatted like this: `this is what R code looks like` or as a separate chunk of code (which looks more like it does in RStudio):
+
+```{r echo=TRUE, eval=FALSE}
+This is what an R code chunk looks like.  
+```
+
+The output which R generates is presented like this: 
+```{r}
+print("This is what R output looks like.")
+```
+
+Some excercises require you to write code. Here's some example code.  Pressing **Run Code** will make R read and execute the code. Try it now: 
+```{r intro, exercise=TRUE}
+print("Pirates say R")
+```
+
+In **R**, any text to the right of a hash `#` is ignored by the **R** programme.  It is used to write **comments** addressed to the human reading the code. 
+```{r, echo=TRUE}
+#This is a comment. R will print it, but ignore it. 
+#pssst: R is a silly name for a programme. Don't tell R.   
+```
+
+Click **Next topic** to view the contents of this tutorial.  
+
+##CONTENTS
+
+* Section 1: [R data types](#section-section-1-r-data-types) (xx minutes)
+* Section 2: [Importing data](#section-tutorial-2-importing-data) (xx minutes)
+* Section 3: [Functions and operators](#section-tutorial-3-functions-and-operators) (xx minutes)
+* Section 4: [Summary statistics](#section-tutorial-4-summary-statistics) (xx minutes)
+* Section 5: [Plots and charts](#section-graphs) (xx minutes) 
+
+Click **Next topic** to read on.  
+
+## SECTION 1: R DATA TYPES
+
+This session should take about **???** minutes to complete.  It introduces the ways in which R handles data, namely: 
+
+* Basic types (numeric, character and logical)
+* Data structures (vectors, matrices and data frames)
+* Handling missing values  
+
+###
+Lets look at **basic types** first. 
+
+##  Basic types
+The basic object type in **R** is called a **vector**, which contains a list of values (e.g. a measurement, species name, presence/absence). In **R** values will normally be one of the following types:  
+
+* Numeric 
+* Character
+* Logical
+* Factors
+
+###
+
+###Numeric values
+Any value which consists of only numbers is automatically treated as **numeric** data in **R**.  
+
+The following code creates a variable called `height` which has a value of `180`.
+
+```{r echo=T}
+height <- 180
+```
+
+###
+
+Typing the name of a variable displays its value.
+
+```{r echo=T}
+height
+
+```
+
+###
+
+In **R** the `c` function is used to **combine** several values into a vector.
+
+```{r numeric.values-setup, echo=T}
+bird.counts <- c(15, 700, 300, 120)
+```
+
+Run the following code to display the values held in `bird.counts`.
+```{r numeric.values, exercise = TRUE}
+bird.counts
+```
+
+```{r wazzup-setup}
+wazzup <- print("wazzup?")
+```
+
+```{r wazzup, exercise = TRUE}
+wazzup
+```
+
+Tip: In **R** the full stop `.` character can be used as a separator in variable names instead of using an underscore `_` character.
+
+###Character values
+Any value which contains text is automatically treated as being **character** data.  You tell R something is a character by enclosing it in double `"char"` or single `'char'` quotes.   
+species: `"bellis perennis", "columba livia"`
+
+###Logical values
+A logical value can only be either `TRUE` or `FALSE`.  **R** automatically recognises those two words as logical values, but can also treat other values as logical (e.g. `0` and `1`, `T` and `F`).  
+feature present: `TRUE, FALSE, FALSE, TRUE`
+
+###Quiz
+```{r quiz1, echo=FALSE}
+quiz(caption = "Quiz: Data types",
+  question("Which type of value is `10`. Tick all that apply.",
+    answer("character"),
+    answer("numeric", correct = TRUE),
+    answer("logical"),
+    incorrect = "Incorrect: `10` is a numeric value."
+  ),
+  question("Which of these values does R treat as being character data?",
+    answer("`\"favourable condition\"`", correct = TRUE),
+    answer("`2017`"),
+    answer("`\"2017\"`", correct = TRUE),
+    answer("`TRUE`"),
+    incorrect = "Incorrect: **\"favourable condition\"** is treated as character. `2017` is treated as a numeric, however when put in quotes `\"2017\"` is treated as a character." 
+  ) 
+)
+```
+
+
+###Factors
+
+We have not yet encountered **categorical** data. In **R** such data are known as **factors**.  
+
+Data is categorical if its values belong to a collection of known, defined and non-overlapping classes (referred to as **levels**)
+
+###
+Common examples might be: 
+ 
+* species lists
+* habitat types
+* survey squares
+* etc.
+
+Factors may contain numeric, characters or logical values.  
+>taxonomic group: `"brophytes", "graminoids", "vascular plants","graminoids"`  
+Levels: `brophytes, graminoids, vascular plants`    
+>species present: `TRUE, FALSE, FALSE, TRUE, FALSE`  
+Levels: `FALSE, TRUE`    
+>abundance `5,0,0,1,0` 
+Levels: `0,1,5`  
+
+##Vector
+
+###What are vectors?
+In **R** vectors are sequences of values.  The values in a vector must all be of the same basic type.
+
+Vectors can be: 
+
+* numeric, e.g.  `c(9.2, 33.7, 27.4, 14.9)`
+* logical, e.g. `c(TRUE, TRUE, FALSE)`
+* character, e.g. `c("mud","sand","shingle")`
+* factors, e.g. `factor(c("quadrat1","quadrat1","quadrat2","quadrat2")`
+
+Vectors are the basic building blocks of how data are stored in R.  For example, if you import a table of data from Excel into R each column of data is stored as a vector.
+
+You can make a vector by *combining* a sequence of values separated with a comma.  The combine function in **R** is `c()` and each value must be separated with a comma `,`.  
+
+###
+Click **Run Code** to see how it works with each of the main vector types: 
+
+Numeric vector:
+
+```{r vec-eg-1,  exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
+c(9.2, 33.7, 27.4, 14.9) 
+```
+
+###
+Logical vector:
+
+```{r vec-eg-2,  exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
+c(TRUE, TRUE, FALSE)
+```
+
+###
+Categorical vector:
+
+```{r vec-eg-3,  exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
+factor(c("Male","Female"))
+```
+
+<!--
+
+## Extracting values from vectors
+
+If you want to access specific values from a vector you use square brackets.  For example, to access the first value from `water.table.depth` you would use:
+
+```{r echo=T}
+#water.table.depth[1]
+```
+
+To access a range of values you use a colon `:`.  For example, to access the first three values from water.table.depth you would use:
+
+```{r echo=T}
+#water.table.depth[1:3]
+```
+
+-->
+
+###Generating data: sequence and repeat functions
+
+There are often occasions where you need to generate a sequence of numbers.  
+
+###
+For example: we want to survey a 500m transect at 100m intervals, going east from a given grid reference.  We need: 
+
+* five unique plot numbers  
+* five grid eastings, 100m apart  
+* five identical grid northings  
+
+###
+For the plot numbers we can use two methods:  
+
+* the colon `:` operator:  
+
+```{r vec-eg-4, exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
+1:5
+```
+
+###
+* or the sequence `seq()` function (we will learn more about functions later)
+
+```{r vec-eg-5, exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
+seq(from=1, to=5)
+```
+
+###
+**R** allows us to drop the `from=` and `to=` parameter labels to shorten the code to:
+
+```{r vec-eg-6, exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
+seq(1, 5)
+```
+
+###
+For the grid eastings we can also use the `seq()` function, but this time we have to specify the size of the increments:
+
+```{r vec-eg-7, exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
+seq(512300, 512700, by=100)
+```
+
+###
+Or we specify the length of the vector we want:
+
+```{r vec-eg-8, exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
+seq(512300, 512700, length.out=5)
+```
+
+###
+Finally, for the grid northings, we can use the repeat `rep()` function, specifying first the value, and second the number of repetitions:
+
+```{r vec-eg-9, exercise=TRUE, exercise.eval=FALSE, exercise.lines=1}
+rep(245600, 5)
+```
+
+### Question
+
+```{r q1}
+quiz(
+  question("How would you create a vector containing a sequence of numbers from one to ten? (tick all answers that apply)",
+    answer("`1:10`", correct = T),
+    answer("`c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)`", correct = T),
+    answer("`rep(1,10)`"),
+    answer("`seq(1,10)`", correct = T),
+    incorrect= "Not quite. 1:10, c(1,2,3,4,5,6,7,8,9,10) and seq(1,10) will all create a vector containing a sequence of numbers from one to ten.  However, rep(1,10) will create a vector containing the number 1 repeated 10 times."
+  )
+)
+```
+
+Before you answer the question, use the empty code block below to try out the options.  Press **Run Code** to see the results.  Press **Hint** for more information.  
+```{r block-q1, exercise=T, exercise.eval=T}
+
+```
+
+<div id="block-q1-hint">
+**Hint:**   
+The correct code should give an output that looks like this:  
+`[1]  1  2  3  4  5  6  7  8  9 10`
+</div>
+
+###
+End of topic: **Vector**
+
+## Variables
+
+In **R** you give data a name to an object by using the `<-` assignment operator.
+
+```{r variables1-setup, echo=T}
+water.table.depth <- c(12.6, 13.9, 9.4, 7.6, 8.1)
+```
+
+The full stop `.` character can be used as a separator in variable names instead of using an underscore `_` character.
+
+If you type the name of an **object** into **R** it will show the content of the object in the **console** window.  Click **Run Code** to see how it works: 
+
+```{r variables1, exercise=TRUE, exercise.eval=FALSE}
+water.table.depth
+```
+
+```{r variables2-setup, echo=TRUE}
+water.table.depth <- c(12.6, 13.9, 9.4, 7.6, 8.1)
+```
+
+###
+You can check what type of values the `water.table.depth` vector contains by asking **R** what **mode** it is: 
+```{r variables2, exercise=TRUE, exercise.eval=FALSE}
+mode(water.table.depth)
+```
+The values are numeric.  
+
+###
+End of topic: **Variables**
+
+##Matrix
+
+###What is a matrix?
+
+A **matrix** consists of two or more *vectors* which must: 
+
+* have the same length; and 
+* contain the same type of data.
+
+###Example: pitfall traps
+We have four [pitfall traps](http://en.wikipedia.org/wiki/Pitfall_trap) and have counted how many invertebrates of two species are found in each. We found the following numbers of species in the traps:  
+*Species A*: 11,19,33,12   
+*Species B*: 9, 33, 27, 14
+
+###The bind functions
+We can **bind** these two **vectors** into a **matrix**: 
+
+```{r echo=TRUE}
+trap.count <- cbind(c(11,19,33,12), c(9,33,27,14))
+```
+
+###
+The `cbind` (**c**olumn **bind**) function combind the vectors into a matrix.  You could also use `rbind` (**r**ow **bind**).  
+
+###Matrix function
+We can also coerce a single vector into a matrix by using the **matrix** function.  For this you need to specify the vector, and either: 
+
+* the number of rows `nrow=` or  
+* the number of columns `ncol=`  
+
+which the matrix should have.  
+
+###Example: weather records 
+You have recorded monthly mean temperature at Thursley NNR for five years and have stored them into the vector `temp`:
+
+```{r, echo=TRUE}
+temp <- c(1.27, 3.68,  6.43,  9.32, 11.06, 16.14, 18.38, 16.16, 14.03, 10.85, 5.71, -0.01, 4.42,  6.66,  6.98, 12.62, 12.89, 14.72, 15.74, 16.31, 15.74, 12.96, 10.06, 6.44,  6.00,  3.81,  8.50, 7.90, 12.89, 14.52, 16.12, 17.38, 13.73, 10.38,  6.99,  5.35,  3.93,  3.25,  3.53,  7.91, 10.80, 14.50, 19.10, 17.70,
+14.33, 12.89,  6.61,  6.26,  6.28,  6.97,  8.16, 10.62, 12.63, 15.94, 18.68, 15.86, 15.74, 13.31,  8.92,  5.40)
+```
+
+###
+You want to put these into a matrix where each row represents a month and each column a year.  You know they are in order,starting with January of the first year.  
+
+###
+First we will try specifying the number of rows (12 months = 12 columns).  Click **Run Code** to see how it works: 
+
+```{r weath-ex-1,  exercise=TRUE, exercise.eval=FALSE}
+matrix(temp, nrow= 12)
+```
+
+###
+Next we will do it by specifying the number of columns (5 years = 5 columns).  Click **Run Code** to see how it works: 
+
+```{r weath-ex-2,  exercise=TRUE, exercise.eval=FALSE}
+matrix(temp, ncol= 5)
+```
+
+###
+The resulting matrices are identical to each other. 
+  
+
+###Exercise: another pitfall trap
+
+You have inspected three pitfall traps and are recording the number of spiders and the number of ground beetles in each.  You want to create the following matrix:
+
+```{r}
+cbind(c(1,2,3),c(4,5,6))
+```
+###
+```{r trap-ex-3}
+quiz(
+  question("How can you combine the data into a matrix like the one above? (tick all answers that apply)",
+    answer("matrix(c(1:6))", correct = F),
+    answer("cbind(c(1,2,3),c(4,5,6))", correct = T),
+    answer("rbind(c(1,4),c(2,5),c(3,6))", correct = T),
+    answer("matrix(c(1,2,3,4,5,6), nrow=3)", correct = T)
+  )
+)
+```
+
+Before you answer the question, use the empty code block below to try out the options.  Press **Run Code** to see the results.  Press **Hint** for more information.  
+```{r block-trap-ex-3, exercise=T, exercise.eval=T}
+
+```
+
+<div id="block-trap-ex-3-hint">
+Sorry, no hint this time.  Try out all the solutions and see which works. 
+</div>
+
+
+###Solution
+
+* *Incorrect*: `matrix(c(1:6))` It is right to use the matrix function, but you have to specify the number of rows `nrow` or columns `ncol`.  
+* *Correct*: `cbind(c(1,2,3),c(4,5,6))` You can use column bind to combine the two column vectors.   
+* *Correct*: `rbind(c(1,4),c(2,5),c(3,6))` You can use row bind to combine the three row vectors.  
+* *Correct*: `matrix(c(1,2,3,4,5,6), nrow=3)` YOu can use the matrix function and specify the number of rows.   
+
+###
+End of topic **Matrix**
+
+## Data Frame
+
+###What is a data frame?
+
+A data frame consists of two or more **vectors** of the **same length**.  Each column can contain **different types of data**.  It is the preferred way of storing tabular data in R.  It is also the default way data from Excel spreadsheets is imported into **R**.
+
+###Example: vegetation quadrat
+
+
+We have surveyed a 1m by 1m vegetation quadrat on a heathland.  We have estimated the area which each plant species covers in percent.  These are our results: 
+
+plant | cover
+:--- |:----
+shrubs | 60%
+grasses | 25%
+mosses | 30%
+flowers | 5%
+
+### 
+We can't combine this into matrix because *plants* and *cover* are different types of data.   
+
+*Plants* is **character** data  
+*Cover* is **numeric** data.   
+
+###
+However, we can bind these two vectors into a **data frame**: 
+
+```{r echo=TRUE}
+quadrat <- data.frame(plants = c("shrubs", "grasses", "mosses", "flowers"),
+                      cover = c(60, 25, 30, 5))
+```
+###
+The `data.frame` function combines the vectors into a data frame.  You could also use `cbind` and **R** would automatically choose the `data.frame` function because a matrix is impossible in this case.
+
+###
+We have already encountered the **assignment operator** `<-` which tells **R** to save the results of the function `data.frame` into a new object.  Here, the object we have created is `quadrat`.  
+
+### Recap: calling objects
+You can see the value of an object by typing its name and running R.  
+
+Type the code to show the contents of the data frame we have just created, then press **Run Code* to see if it is right.    
+```{r veg.ex-setup}
+quadrat <- data.frame(plants = c("shrubs", "grasses", "mosses", "flowers"),
+                      cover = c(60, 25, 30, 5))
+```
+
+```{r veg.ex, exercise=TRUE}
+quadrat
+```
+
+```{r veg.ex-hint-1}
+Type the name of the object and click Run Code
+```
+
+###Accessing data in data frames
+You are likely to want to retrieve all or parts of the data in a data frame.  There are a number of ways of doing this: 
+
+#### All the data
+The name of the object returns all the data.  E.g.: 
+
+```{r, echo=TRUE}
+quadrat
+```
+
+#### single columns
+The `$` sign is used to reference a column name.  It returns a vector.
+
+```{r, echo=TRUE}
+quadrat$cover
+```
+
+
+#### Index referencing
+Parts of a dataframe can be referenced by their **index**.  Think of it as co-ordinates, where the first index is the row and the second the column.  The index is enclosed in square brackets `[ROW, COLUMN ]`
+
+###
+A **single cell** is referenced by two numbers, and returns a vector of lenght one.  
+
+The following code returns the third row, second column:  
+
+```{r, echo=TRUE}
+quadrat[3,2]
+```
+
+###
+A **single row** is referenced by one number, leaving the column reference blank.  It returns a data frame.  
+
+The following code returns a dataframe of the third row only:
+
+```{r, echo=TRUE}
+quadrat[3, ]
+```
+
+###
+A **single column** is referenced by one number, leaving the row reference blank.  It returns a vector.  
+
+The following code returns a vector of the second column: 
+
+```{r, echo=TRUE}
+quadrat[2]
+```
+
+###
+You can simplify this by leaving the row reference out entirely, and return a data frame of that column. 
+
+The following code returns a data frame of the second column: 
+
+```{r, echo=TRUE}
+quadrat[2]
+```
+
+#### Referencing by name
+Instead of specifing the number of a column, it can also be addressed by name.
+
+The following code returns a data frame of the first column (`plants`): 
+
+```{r, echo=TRUE}
+quadrat["plants"]
+```
+
+
+#### Referencing ranges
+Ranges of rows or columns can also be addressed. 
+
+The following code returns the first three rows of the second column as a vector.  
+
+```{r, echo=TRUE}
+quadrat[1:3,2]
+```
+
+###Exercise: extracting a column
+
+You are asked to extract a species list from the quadrat you have surveyed.  
+
+```{r veg-ex-2}
+quiz(
+  question("Which of the following will return a vector of species names? (tick all answers that apply)",
+    answer("`quadrat[1]`", correct = T),
+    answer("`quadrat[,1]`", correct = T),
+    answer("`quadrat.plants`", correct = F),
+    answer("`quadrat$plants`", correct = T),
+    answer("`quadrat[\"plants\"]`", correct = T)
+  )
+)
+```
+
+Before you answer the question, use the empty code block below to try out the options.  Press **Run Code** to see the results.  Press **Hint** for more information.  
+```{r block.veg.ex.2-setup}
+quadrat <- data.frame(plants = c("shrubs", "grasses", "mosses", "flowers"),
+                      cover = c(60, 25, 30, 5))
+```
+
+```{r block.veg.ex.2, exercise=TRUE}
+
+```
+<div id="block-trap-ex-3-hint">
+Sorry, no hint this time.  Try out all the solutions and see which works. 
+</div>
+
+
+###Solution
+
+* *Correct*: `quadrat[1]` You can index a column by its number, without specifying any rows.    
+* *Correct*: `quadrat[,1]` You access values by specifying rows and columns: `[row , column]`.  Here we left the row index blank, which returns all rows, and the first column.    
+* *Incorrect*: `quadrat.plants` **R** thinks this is an object called   `quadrat.plants`: we haven't defined such an object.   
+* *Correct*: `quadrat$plants` The `$` character is used to reference a column name.
+* *Correct*: `quadrat["plants"]` Here we have used a character string to reference a column by its name.     
+
+###
+End of topic **Data Frame**
+
+
+##Missing Values
+
+Missing values occur all too frequently: 
+
+* a sensor might fail or a battery run out
+* part of a site is temporarily inaccessible
+* the surveyor's handwriting is hard to read
+* someone forgot to write a measurement down!
+
+In **R** 'Not available' or missing values are specified using `NA`
+
+```{r echo=TRUE}
+veg.heights <- c(44.2,22.7,NA,33.3)
+veg.heights
+```
+
+###
+This can cause problems, for instance when calculating the mean: 
+```{r echo=TRUE}
+mean(veg.heights)
+```
+  
+###
+The mean cannot be calculated because the missing value is included.  However, you can tell **R** to ignore missing values using the parameter:  
+`na.rm = TRUE` (it stands for *remove NA*)
+
+###
+```{r echo=TRUE}
+mean(veg.heights, na.rm = TRUE)
+```
+It has calculated the mean.  
+
+###
+end of topic **Missing Values**
+
+## TUTORIAL 2: IMPORTING DATA  
+
+This session should take about **5** minutes to complete.  It gives a brief introduction to importing data from a text file.   
+
+## The working directory
+
+The working directory is the place R will look for any data, unless you tell it otherwise.  So first you need to set the working directory: 
+
+###
+`setwd("C:\\introR")`  
+Windows uses backslashes `\`: in **R** these must be written twice `\\` (because a single backslash has a special meaning in **R**).   
+
+###
+`setwd("C:/introR")`  
+Alternatively you can used single forward slashes `/` for paths.
+
+## Importing csv
+
+Data is often collated from sources such as: 
+
+* field survey sheets
+* sensor measurements
+* third party data (e.g. weather records)
+
+###Example
+
+You want to understand the impact of grazing on a site, so you have measured the height of grasses, mosses and shrubs on five occasions in the last ten years.  You have saved your measurements as  
+
+
+###
+The easiest way of getting data into R is to read it from a text file,  for example a file saved as comma separated values in Excel (.csv). To make it easy for a beginner to deal with, the .csv file should have: 
+
+* a single row at the top with header information
+* data should be in columns
+* observations should be in rows
+* there should be no summary rows or columns
+
+###The read.csv function
+
+The **read.csv()** function can bring csv file data into **R**.  The code needs to have the following components: 
+
+###
+`read.csv()`  The function which will interpret the file and read it into **R**
+
+###
+`"veg-heights.csv"`  The name of the file you are importing.  Note that it is in quotes `""`: this is because we want **R** to read it as a string of characters.  
+
+###
+`header = TRUE`  An **parameter** for the `read.csv()` function.  We will learn more about parameters later.  
+
+###
+`birds`  A name for the **object** we will read the file into.  If the object already exists **R** will overwrite it.  If it doesn't exist, **R** will create it. 
+
+###
+Here is the assembled line of code: 
+
+```{r, echo=TRUE, eval=FALSE}
+veg.heights <- read.csv("veg-heights.csv", header=TRUE)
+```
+
+## Importing other formats
+Data in text files is often separated by commas, but you may find other separators, most commonly tab separated values.  For these we need a different function:  
+
+###
+`read.table()`  It works just like `read.csv()` but you need to specify the separator.  
+
+`sep = ""` An argument to specify the separator: here it specifies white space (including tabs).  
+
+###
+```{r, echo=TRUE, eval=FALSE}
+veg.heights <- read.table("veg-heights.txt", sep="")
+```
+
+### 
+By installing R extensions you can read data in other formats, such as Excel or spatial data from shapefiles. 
+
+## Viewing data in R Studio
+Once you have read in a file, in R Studio it will appear in the Global Environment window in the top right hand side.  
+
+![RStudio's view of data that has been imported](images/IntroR_data_import.png){width="560"}
+
+<!--
+
+### Excercise: import some data
+To complete this exercise you must first download the sample data `veg-heights.csv` and `veg-heights.txt` from [....] and save them to your C drive in a folder called "introR".  
+
+###
+1 In line 1 of of the code box below, write code to set the working directory to C:/introR/  
+2 In line 2, Write the code to import the birds data.  You can copy it from above.  
+3 In line 3, write code for displaying the data.  
+
+Then press **Run Code**.  If you have done it correctly you should see the content of the birds dataset.  
+
+```{r import.ex, exercise=TRUE}
+
+```
+
+```{r import.ex-hint-1}
+setwd("C:/introR")
+```
+```{r import.ex-hint-2}
+veg.heights <- read.csv("veg-heights.csv", header=TRUE)
+```
+```{r import.ex-hint-3}
+veg.heights
+```
+
+-->
+
+###
+end of topic **Importing data**
+
+
+## TUTORIAL 3: FUNCTIONS AND OPERATORS  
+
+This session should take about **30** minutes to complete.  It explains:
+
+* how functions work
+* how to find help
+* mathematical operators
+* operations on R objects
+* logical operators
+* relational operators
+
+## How do functions work
+
+Functions are crucial tools in any programming language.  A function is a part of a computer program that performs some specific action.  
+
+We have already encountered some R functions, such as `c`, `rep`, `seq`, `data.frame()`, `read.csv()` and `read.txt()`. 
+
+Lets look at the components of a function we've already used: 
+
+###
+![The components of a function](images/IntroR_functions.png){width="560"}
+
+## How to find help
+
+###
+The following website provides a useful list of R's built in functions.
+
+[Quick-R: Built-in Functions](http://www.statmethods.net/management/functions.html)
+
+###
+
+R has built in documentation to explain what functions do, and what their default parameters are.  
+
+Putting a question mark in front of a function name displays its help. 
+
+Try to find help for the `any` function:
+
+```{r help.ex, exercise = TRUE}
+
+```
+
+```{r help.ex-hint}
+?any
+```
+
+If you've done it correctly the help file will pop up in a new window.  Click **Hint** above if you are struggling.  
+
+## Mathematical Operators
+
+You can use **R** to carry out mathematical operations: 
+
+###
+```{r results="asis"}
+mathops <- cbind(Operator = c("+", "-", "*", "/", "^", "sqrt", "log"), Description = c("Addition", "Subtraction", "Multiplication", "Division", "Exponent", "Square root", "Natural logarithm"))
+knitr::kable(mathops, caption = "Mathematical Operators")
+```
+
+###
+**R** evaluates mathematical operations: 
+```{r echo = TRUE}
+2*2
+```
+
+###
+Normal arithmetic rules apply (if you are unsure, see [Order of Operations](http://en.wikipedia.org/wiki/Order_of_operations)): 
+```{r echo = TRUE}
+2*1+2
+```
+
+###
+... so use brackets if necessary: 
+```{r echo = TRUE}
+2*(1+2)
+```
+
+### Exercise: mathematical operators
+
+
+```{r mathops.ex.1}
+quiz(
+  question("Which of these calculations equals **20**? (tick all answers that apply)",
+    answer("5+5*2", correct = F),
+    answer("(5+5)*2", correct = T),
+    answer("5+(5*2)", correct = F),
+    answer("sqrt(400)", correct = T)
+  )
+)
+```
+
+Before you answer the question, use the empty code block below to try out the options.  Press **Run Code** to see the results.    
+```{r block-mathops.ex.1, exercise=T, exercise.eval=T}
+
+```
+
+## Operations on R objects
+
+Objects such as vectors and data frames can be manipulated with mathematical operations.    
+
+### Example: water table
+We have measured the water table (in cm) on a site once a month for a year:   
+
+```{r echo=TRUE}
+water.table <- c(20.4, 17.3, 22.5, 11.6, 3.6, 2.2, 4.6, 5.5, 12.4, 25.4, 17.3, 19.2)
+```
+
+###
+We'd like to convert the readings from cm to metres, so we need to divide each value by 100.  We can simply divide the entire object by 100: 
+
+```{r echo=TRUE}
+water.table / 100
+```
+
+###
+We repeat our measurements the following year:
+```{r echo=TRUE}
+water.table.rpt <- c(26, 15, 24.1, 10.1, 5.5, 0.4, 2.3, 5.9, 13.4, 28.1, 19.3, 18.7)
+```
+
+###
+Now we'd like to know the the difference in water table between one year and the next.  We can just subtract one object from the other:  
+
+```{r echo=TRUE}
+water.table.rpt - water.table
+```
+
+###
+Or we can calculate the difference and convert to metres in one line of code: 
+```{r echo=TRUE}
+(water.table.rpt - water.table)/100
+```
+
+### Example: pitfall trap
+
+In a previous exercise we collected data from a pitfall trap and saved it into a matrix: 
+```{r echo=TRUE}
+trap.count <- cbind(c(11,19,33,12), c(9,33,27,14))
+```
+
+###
+Now we'd like to calculate the log of each element in the matrix: 
+```{r echo=TRUE}
+log(trap.count) 
+```
+
+### Excercise: birds
+A school has been recording birds in its neighbourhood.   They have asked you to analyse the results. The data have been imported and saved to the variable `birds`.
+
+`birds <- import.csv("birds.csv")`
+
+Have a look at the data they sent you by typing `View(birds)`.  
+```{r block10-setup}
+birds <- cbind(species = c("duck", "gull", "lapwing", "nuthatch", "owl", "robin", "sparrow", "tit" ), 
+               farm = c(10,5,2,0,0,0,7,2),
+               garden = c(7,0,0,0,0,3,0,6), 
+               wood = c(0,0,0,4,2,0,0,8)
+               )
+as.data.frame(birds)
+```
+
+```{r block10, exercise=TRUE}
+
+```
+
+```{r block10-hint} 
+#Make sure the V of `View(birds)` is capitalised 
+```
+
+
+```{r birds.obj.ex.2}
+quiz(
+  question("How would you calculate the total number of birds seen? (one correct answer)",
+    answer("`sum(birds)`", correct = F),
+    answer("`birds$farm + birds$garden + birds$wood`", correct = F),
+    answer("`sum(birds$farm, birds$garden, birds$wood)`", correct = T)
+  )
+)
+```
+
+Before you answer the question, use the empty code block below to try out the options.  Press **Run Code** to see the results and **Hint** if you are stuck.    
+```{r block-birds.obj.ex.2-setup}
+birds <- cbind(species = c("duck", "gull", "lapwing", "nuthatch", "owl", "robin", "sparrow", "tit" ), 
+               farm = c(10,5,2,0,0,0,7,2),
+               garden = c(7,0,0,0,0,3,0,6), 
+               wood = c(0,0,0,4,2,0,0,8)
+               )
+as.data.frame(birds)
+```
+
+```{r block-birds.obj.ex.2, exercise=TRUE}
+
+```
+
+```{r block-birds.obj.ex.2-hint}
+"Have another look at the section Accessing data in data frames"
+``` 
+
+
+###Solution
+* *Incorrect* `sum(birds)`  This function is a good choice because it adds all the numbers in a dataframe.  But here you are also inadvertently telling R to add up the names of the birds (in the column 'Species')
+* *Incorrect* `birds$farm + birds$garden + birds$wood` Here you are actually making a new vector made up of the three columns of bird observations.
+* *Correct* `sum(birds$farm, birds$garden, birds$wood)` Sum is geing told to add all the numbers in the three columns of bird numbers. 
+
+## Logical Operators
+
+You can use **R** to carry out logical operations
+
+|Operator |Description |
+|:--------|:-----------|
+|!        |NOT         |
+|&        |AND         |
+|&#124;   |OR          |
+
+
+### Logical vectors
+
+You can create logical vectors: 
+```{r echo = T}
+x <- c(TRUE, FALSE, FALSE, TRUE)
+y <- c(FALSE, TRUE, FALSE, TRUE)
+```
+
+``` {r echo = T}
+x
+y
+```
+
+### NOT
+`!` **NOT** inverts the logical value of an object.  
+``` {r echo = T}
+!x
+```
+Here it has inverted each element of the vector `x`
+
+### AND
+`&` **AND** compares two elements and returns `TRUE` if they are both `TRUE` and `FALSE` if one or both of them are `FALSE`  Again, it will operate on each element of two vectors and compare them:
+``` {r echo = T}
+x&y
+```
+
+### OR
+`|` **OR** returns `TRUE` if either or both elements are `TRUE`; and `FALSE` if both elements are `FALSE`: 
+``` {r echo = T}
+x|y
+```
+
+
+### Exercise: Heathland burning
+
+ON five heathland plots you have recorded:  
+
+* the presence of Heath Star-moss *campylopus introflexus*; and  
+* whether there is evidence of burning.  
+
+This is what you found: 
+
+
+```{r echo = F}
+burn <- c(FALSE, TRUE, FALSE, FALSE, TRUE)
+moss <- c(TRUE, TRUE, FALSE, FALSE, TRUE)
+burnmoss <- cbind(burn = burn, moss = moss)
+knitr::kable(burnmoss)
+```
+
+###
+You have saved the results into two vectors: 
+```{r echo = T}
+burn <- c(FALSE, TRUE, FALSE, FALSE, TRUE)
+moss <- c(TRUE, TRUE, FALSE, FALSE, TRUE)
+```
+
+###
+Now you'd like to know on which plots there was both burning and the moss.  
+
+```{r heath.ex}
+quiz(
+  question("Which logical statement finds the plots where there was both burning and the moss? (one correct answer)",
+    answer("`burn | moss`", correct = F),
+    answer("`burn & moss`", correct = T),
+    answer("`burn ! moss`", correct = F)
+  )
+)
+```
+
+###Solution
+
+![OR](images/IntroR_OR.png){height="80"}
+
+*Incorrect* `burn | moss` burn **OR** moss returns `TRUE` for each plot that has been burned, or there is moss, or both. It returns all plots. 
+
+![AND](images/IntroR_AND.png){height="80"} 
+
+*Correct* `burn & moss` burn ** AND** moss returns` TRUE` only if a plot has been burned and there is moss
+
+![NOT](images/IntroR_NOT.png){height="80"} 
+
+*Incorrect* `burn ! moss` burn **NOT** moss returns `TRUE` only if a plot has been burned but there is no moss.
+
+
+##Relational Operators
+
+You can use **R** to compare two elements. 
+
+
+|Operator |Description |
+|:--------|:-----------|
+|<        |Less than |
+|>        |Greater than |
+|<=       |Less than or equal to |
+|>=       |Greater than or equal to|
+|==       |Equal to|
+|!=       |Not equal to|
+
+###
+Lets create two objects with different values... 
+```{r echo = T}
+x <- 5
+y <- 16
+```
+
+###
+... and investigate what each operator does: 
+```{r echo = T}
+x < y
+y > x
+x <= 5
+y >= 16
+y == 2
+x != 4999
+```
+
+###
+As with logical operations, you can also apply relational operators to vectors, matrices and data frames.   
+
+###
+Lets repeat the steps above, but with vectors: 
+```{r echo = T}
+x <- c(1, 2, 3)
+y <- c(3, 2, 1)
+```
+
+###
+... and investigate what each operator does: 
+```{r echo = T}
+x < y
+y > x
+x <= 5
+y >= 16
+y == 2
+x != 2
+```
+
+###
+Notice that the operation returns a logical **vector**.  If you did this with two data frames, it would return a data frame. 
+
+###Example: deer counts
+We have carried out a deer count at three survey locations.  We repeated it the following year.  We wish to know for each species, whether the number of deer has decreased: 
+
+###
+First we make two data frames with our data: 
+```{r echo = TRUE}
+deer1 <- data.frame(red = c(5, 17, 28), roe = c(33, 35, 75))
+deer2 <- data.frame(red = c(7, 15, 50), roe = c(20, 22, 61))
+
+deer1
+deer2
+```
+Note that we have given the columns names using this syntax: `red =` and `roe =`
+
+###
+We then use the relational operator to compare the two data frames: 
+```{r}
+deer1 > deer2
+```
+Note that the operation returns a logical data frame of identical dimensions.  
+
+
+###Exercise: water table
+
+We want to find the months in which the water table (from our earlier exercise) in our second survey was lower than in our first survey.  
+
+###
+First we'll subtract the first reading from the second reading:
+```{r echo=TRUE}
+water.table.diff <- water.table.rpt - water.table
+water.table.diff
+```
+
+
+###
+Now write code which will give a logical vector where `TRUE` means the water table in the second survey was lower than in the first: 
+
+
+```{r watertb-setup}
+water.table <- c(20.4, 17.3, 22.5, 11.6, 3.6, 2.2, 4.6, 5.5, 12.4, 25.4, 17.3, 19.2)
+water.table.rpt <- c(26, 15, 24.1, 10.1, 5.5, 0.4, 2.3, 5.9, 13.4, 28.1, 19.3, 18.7)
+water.table.diff <- water.table.rpt - water.table
+water.table.diff
+```
+
+```{r watertb, exercise = TRUE}
+
+```
+
+```{r watertb-hint-1}
+you can use water.table.diff and find differences smaller than 0  
+```
+
+```{r watertb-hint-2}
+or you can compare water.table and water.table.rpt  
+```
+
+###Solution
+There were a number of possibilities: 
+
+```{r echo = T}
+water.table.diff < 0
+0 > water.table.diff
+water.table > water.table.rpt
+```
+
+###
+end of topic **Functions**
+
+## TUTORIAL 4: SUMMARY STATISTICS  
+
+This session should take about **10** minutes to complete.  It gives a very brief introduction to extracting summary statistics from **R**
+
+###Calculating statistics in R
+```{r echo=F}
+water.table <- c(20.4, 17.3, 22.5, 11.6, 3.6, 2.2, 4.6, 5.5, 12.4, 25.4, 17.3, 19.2)
+```
+
+`sd`: Standard deviation tells us  how values in the sample are spread out from the sample mean:
+
+```{r echo=TRUE}
+sd(water.table)
+```
+
+###
+`mean`: the mean is the average of all values
+```{r echo = T}
+mean(water.table)
+```
+
+###
+`median`: the median is the middle value of all values when you put them in order: 
+```{r echo = T}
+median(water.table)
+```
+
+###
+`max`: the maximum is the highest value:
+```{r echo = T}
+max(water.table)
+```
+
+###
+`min`: the minimum is the lowest value: 
+```{r echo = T}
+min(water.table)
+```
+
+###
+`quantile`: quantiles are the value at a given probability, e.g. 25% of (one in four ) measurements are likely to be at 5.275cm or below.  
+```{r echo = T}
+quantile(water.table)
+```
+
+###Exercise: water table range
+We'd like to know how big, in centimetres, the range is between the lowest and the highest measured water table.  Write **R** code to calculate this. 
+
+```{r waterrange-setup}
+water.table <- c(20.4, 17.3, 22.5, 11.6, 3.6, 2.2, 4.6, 5.5, 12.4, 25.4, 17.3, 19.2)
+```
+
+```{r waterrange, exercise=TRUE, exercise.setup = "waterrange-setup"}
+
+```
+
+
+```{r waterrange.2}
+quiz(
+  question("What is the range in the water table? (one correct answer)",
+    answer("23.5", correct = F),
+    answer("23.3", correct = F),
+    answer("23.2", correct = T)
+  )
+)
+```
+
+###Solution
+
+The easiest way to calculate this is to subtract the minimum from the maximum: 
+```{r echo=TRUE}
+max(water.table)-min(water.table)
+```
+
+###
+end of section *Summary statistics*
+
+
+##RANDOM DISTRIBUTIONS
+
+This session should take about **20** minutes to complete.  It will introduce a number of statistical distributions, the generations of random numbers and how to prepare simple plots and charts in **R**
+
+##Generating random numbers
+
+Generating random numbers can be useful in collecting and analyising ecological data.  At its simplest, we often need to generate random survey points to ensure our surveys are not biased.  You may also need to generate random numbers which are distributed in particular ways in order to compare it against collected data and test for randomness.   
+
+###
+You can generate random numbers in R in a variety of ways:
+
+###
+`sample` draws random numbers from a sample.  Here we have drawn 10 numbers at random from a sample of whole numbers between  1 and 100, e.g. to select ten random survey points along  a 100m transect.
+```{r echo=TRUE}
+sample(x = 1:100, size = 10, replace = F)
+```
+
+###
+**R** has a series of functions which generate random numbers drawn from a series of statistical distributions.  We will have a look at each function, plot it and consider where it might be relevant.  The functions in question are: 
+
+`runif`: random, uniform distribution
+`rnorm`: random, normal distribution
+`rpois`: random, poisson distribution
+`rexp`: random, exponential distribution
+
+
+### Uniform distribution
+`runif` stands for random uniform - meaning it selects randomly (between the minimum and maximum numbers given) using a uniform distribution.  
+```{r echo=TRUE}
+runif(n = 5, min = 0, max = 1)
+```
+
+###
+Lets plot a histogram of this, with the function `hist`: 
+```{r echo=TRUE}
+hist(runif(n = 5, min = 0, max = 10))
+```
+
+###
+In the uniform distribution, every number has equal chance of being generated.  So when there is sufficient random data, every part of the number range will be roughly evenly represented.
+```{r echo=TRUE}
+hist(runif(n = 10000, min = 0, max = 10))
+```
+
+### Normal distribution
+This is a small sample from a normal distribution with a mean of 0.5 and a standard deviation of 0.1. 
+```{r echo=TRUE}
+rnorm(n = 10, mean = 0.5, sd = 0.1) 
+```
+
+###
+When repeated with 10000 random numbers we see the typical bell  shape of the normal distribution.
+```{r echo=TRUE}
+hist(rnorm(n = 10000, mean = 0.5, sd = 0.1)) 
+```
+
+### Poisson distribution
+The poisson distribution's characteristic skewedness and long tail.  Typical of independent events that have occasional extremes, such as the water table in a river that occasionally floods.
+```{r echo=TRUE}
+hist(rpois(10000, lambda = 0.5))  
+```
+
+### Exponential distribution
+The exponential is typical of events which change at a continuous rate, for instance the decrease in light under a forest canopy.
+```{r echo=TRUE}
+hist(rexp(n = 10000))
+```
+
+
+## GRAPHS
+**R** produces great plots, but unlike other software you need to tell **R** in writing how the plot should look.
+
+###
+Lets look at the vegetation heights data again.  This time we've also recorded vegetation cover at each quadrat.  First we'll load the file:  
+```{r veggraph-setup}
+veg.all <- read.csv("veg-all.csv", header=TRUE)
+```
+
+###
+```{r echo=TRUE}
+veg <- read.csv("veg-all.csv", header=TRUE)
+```
+
+###
+Using the function `summary` we can get an idea of which variables are in the data. 
+```{r veggraph, echo=TRUE}
+summary(veg.all)
+```
+###
+So now we can start plotting the data with a function called ... `plot`.  
+
+###
+When using the `plot` function R automatically selects an appropriate graph type, depending on the data.  Here it has chosen to plot all variables against each other. It can provide a quick way of choosing what to plot next.  
+```{r echo=TRUE}
+plot(veg.all)
+```
+
+###
+Lets look at the variables `height` and `cover`.  Here we are defining the axes as a `formula` and specifying the data source. 
+```{r echo=TRUE}
+plot(formula = height ~ cover, data = veg.all)
+```
+
+###
+Do you think there is a relationship between vegetation height and cover here? 
+
+###
+Now lets look at `height` and `year`.  Perhaps there is change over time? 
+```{r echo = TRUE}
+plot(height ~ year, veg.all)
+```
+
+Note that we have left out the names of the plot arguments `formula =` and `data =`.  This is common, and as long as **R** can interpret it correctly, makes writing code more efficient. 
+
+###
+You see that the data is stacked in each year, which sugegsts that `year` is actually a categorical variable.  This means we can use boxplots. 
+
+###
+The `boxplot` function can give us an idea of how the data is distributed: 
+```{r echo = TRUE}
+boxplot(height ~ year, veg.all)
+```
+
+###
+Titles and axis labels can be specified and are formatted automatically by **R**. 
+```{r echo=TRUE}
+boxplot(formula = height ~ year, data = veg.all,
+        main = "Height of vegetation in cm by year",
+        xlab = "survey years",
+        ylab = "vegetation height")
+```
+
+###
+End of section **GRAPHS**
